@@ -3,6 +3,13 @@
 
 #include "peripherals/base.h"
 
+// baud_register = clock / (8 * baud_rate) - 1
+#define BAUD_RATE_9600	    3254
+#define BAUD_RATE_19200	    1626
+#define BAUD_RATE_38400	    812
+#define BAUD_RATE_57600	    541
+#define BAUD_RATE_115200	270
+
 #define AUX_ENABLES     (PBASE+0x00215004)
 #define AUX_MU_IO_REG   (PBASE+0x00215040)
 #define AUX_MU_IER_REG  (PBASE+0x00215044)
