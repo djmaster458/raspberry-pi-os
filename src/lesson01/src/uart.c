@@ -1,5 +1,5 @@
 #include "utils.h"
-#include "peripherals/mini_uart.h"
+#include "peripherals/uart.h"
 #include "peripherals/gpio.h"
 
 void uart_send ( char c )
@@ -34,9 +34,9 @@ void uart_init ( void )
 
 	selector = get32(GPFSEL1);
 	selector &= ~(7<<12);                   // clean gpio14
-	selector |= 2<<12;                      // set alt5 for gpio14
+	selector |= 4<<12;                      // set alt0 for gpio14, tx
 	selector &= ~(7<<15);                   // clean gpio15
-	selector |= 2<<15;                      // set alt5 for gpio15
+	selector |= 4<<15;                      // set alt0 for gpio15, rx
 	put32(GPFSEL1,selector);
 
 	put32(GPPUD,0);
@@ -45,12 +45,6 @@ void uart_init ( void )
 	delay(150);
 	put32(GPPUDCLK0,0);
 
-	put32(AUX_ENABLES,1);                   //Enable mini uart (this also enables access to its registers)
-	put32(AUX_MU_CNTL_REG,0);               //Disable auto flow control and disable receiver and transmitter (for now)
-	put32(AUX_MU_IER_REG,0);                //Disable receive and transmit interrupts
-	put32(AUX_MU_LCR_REG,3);                //Enable 8 bit mode
-	put32(AUX_MU_MCR_REG,0);                //Set RTS line to be always high
-	put32(AUX_MU_BAUD_REG,baud_rate);             //Set baud rate to 115200
-
-	put32(AUX_MU_CNTL_REG,3);               //Finally, enable transmitter and receiver
+	unsigned int uart_int_divisor = 0xFFFF & (UART_CLK / (16 * baud_rate)); //Page 56 of PrimeCell PL011
+	unsigned int FBRD = 0x3f & (UART_CLK % (16 * baud_rate) * 64 / UART_CLK);
 }
