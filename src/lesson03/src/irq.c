@@ -38,11 +38,16 @@ void show_invalid_entry_message(int type, unsigned long esr, unsigned long addre
 
 void handle_irq(void)
 {
-	unsigned int irq = get32(IRQ_PENDING_1);
+	unsigned int irq = get32(CORE0_INTERRUPT_SOURCES); //Get Interrupt Source from Core0 local interrupt sources
 	switch (irq) {
-		case (SYSTEM_TIMER_IRQ_1):
-			handle_timer_irq();
+		// case (SYSTEM_TIMER_IRQ_1):
+		// 	handle_timer_irq();
+		// 	break;
+
+		case (LOCALTIMER_INTERRUPT):				  //Run local timer interrupt if Core Interrupt flag set
+			handle_local_timer_irq();
 			break;
+
 		default:
 			printf("Unknown pending irq: %x\r\n", irq);
 	}

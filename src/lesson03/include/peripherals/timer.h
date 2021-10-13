@@ -16,4 +16,13 @@
 #define TIMER_CS_M2	(1 << 2)
 #define TIMER_CS_M3	(1 << 3)
 
+#define LOCALTIMER_CRL    (LOCALPBASE+0x34)
+#define LOCALTIMER_CLR     (LOCALPBASE+0x38)
+
+#define LOCALTIMER_CRL_EN  (1 << 28)
+#define LOCALTIMER_CRL_INT_EN (1 << 29)
+#define LOCALTIMER_CRL_VALUE  (LOCALTIMER_CRL_EN | LOCALTIMER_CRL_INT_EN)
+
+#define LOCALTIMER_CLR_ACK (1 << 31)
+
 #endif  /*_P_TIMER_H */
