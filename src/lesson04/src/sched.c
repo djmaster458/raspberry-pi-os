@@ -17,6 +17,19 @@ void preempt_enable(void)
 	current->preempt_count--;
 }
 
+void print_tasks(void)
+{
+	for(int i = 0; i < NR_TASKS; i++)
+	{
+		struct task_struct *p = task[i];
+		
+		if(!p)
+		{
+			return;
+		}
+		printf("[%d] sp=%X\r\n", i, p->cpu_context.sp);
+	}
+}
 
 void _schedule(void)
 {
@@ -43,6 +56,10 @@ void _schedule(void)
 			}
 		}
 	}
+
+	printf("\r\nSwitch to task %d\r\n", next);
+	printf("Task Manager:\r\n");
+	print_tasks();
 	switch_to(task[next]);
 	preempt_enable();
 }
