@@ -13,7 +13,7 @@ void kernel_main(void)
 	enable_interrupt_controller();
 	enable_irq();
 
-	while (1){
-		uart_send(uart_recv());
+	while (1){ //do nothing
+		//uart_send(uart_recv());
 	}	
 }

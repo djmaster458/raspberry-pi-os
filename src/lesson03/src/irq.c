@@ -2,7 +2,9 @@
 #include "printf.h"
 #include "timer.h"
 #include "entry.h"
+#include "mini_uart.h"
 #include "peripherals/irq.h"
+#include "peripherals/mini_uart.h"
 
 const char *entry_error_messages[] = {
 	"SYNC_INVALID_EL1t",
@@ -28,7 +30,7 @@ const char *entry_error_messages[] = {
 
 void enable_interrupt_controller()
 {
-	put32(ENABLE_IRQS_1, SYSTEM_TIMER_IRQ_1);
+	put32(ENABLE_IRQS_1, SYSTEM_TIMER_IRQ_1 | AUX_INT_EN);
 }
 
 void show_invalid_entry_message(int type, unsigned long esr, unsigned long address)
@@ -38,12 +40,15 @@ void show_invalid_entry_message(int type, unsigned long esr, unsigned long addre
 
 void handle_irq(void)
 {
-	unsigned int irq = get32(IRQ_PENDING_1);
-	switch (irq) {
-		case (SYSTEM_TIMER_IRQ_1):
-			handle_timer_irq();
-			break;
-		default:
-			printf("Unknown pending irq: %x\r\n", irq);
+	unsigned int irq1 = get32(IRQ_PENDING_1);
+	unsigned int irq2 = get32(AUX_IRQ_REG);
+
+	if(irq1 & SYSTEM_TIMER_IRQ_1)
+	{
+		handle_timer_irq();
+	}
+	else if(irq2 & MINIUART_IRQ)
+	{
+		handle_miniuart_irq();
 	}
 }

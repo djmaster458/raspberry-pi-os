@@ -19,4 +19,7 @@
 #define SYSTEM_TIMER_IRQ_2	(1 << 2)
 #define SYSTEM_TIMER_IRQ_3	(1 << 3)
 
+#define MINIUART_IRQ (1 << 0)   //For AUXENB register, interrupt mini uart enable
+#define AUX_INT_EN (1 << 29) //Enable AUX Interrupts
+
 #endif  /*_P_IRQ_H */

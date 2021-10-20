@@ -16,4 +16,10 @@
 #define AUX_MU_STAT_REG (PBASE+0x00215064)
 #define AUX_MU_BAUD_REG (PBASE+0x00215068)
 
+//BCM Peripherals Page 9 - AUX IRQ Register
+#define AUX_IRQ_REG (PBASE+0x00215000) 
+
+//Mask to enable the receive interrupt
+#define MU_REC_INT_EN (0xFD) 
+
 #endif  /*_P_MINI_UART_H */
