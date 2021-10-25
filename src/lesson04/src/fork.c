@@ -3,7 +3,7 @@
 #include "entry.h"
 #include "printf.h"
 
-int copy_process(unsigned long fn, unsigned long arg)
+int copy_process(unsigned long fn, unsigned long arg, unsigned int priority)
 {
 	preempt_disable();
 	struct task_struct *p;
@@ -11,9 +11,9 @@ int copy_process(unsigned long fn, unsigned long arg)
 	p = (struct task_struct *) get_free_page();
 	if (!p)
 		return 1;
-	p->priority = current->priority;
+	p->priority = priority; //Assign user priority
 	p->state = TASK_RUNNING;
-	p->counter = p->priority;
+	p->counter = priority;
 	p->preempt_count = 1; //disable preemtion until schedule_tail
 
 	p->cpu_context.x19 = fn;
@@ -23,7 +23,7 @@ int copy_process(unsigned long fn, unsigned long arg)
 	int pid = nr_tasks++;
 	task[pid] = p;
 
-	printf("Copy Process: pid=%d, sp=%X\r\n", pid, p->cpu_context.sp);	
+	printf("Copy Process: pid=%d, sp=%X\r\n, \r\npriority", pid, p->cpu_context.sp, priority);	
 	preempt_enable();
 	return 0;
 }
