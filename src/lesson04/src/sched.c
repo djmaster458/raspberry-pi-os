@@ -27,7 +27,7 @@ void print_tasks(void)
 		{
 			return;
 		}
-		printf("[%d] sp=%X\r\n", i, p->cpu_context.sp);
+		printf("[Task %d] sp=%X\r\n pc=%X\r\n pri=%d", i, p->cpu_context.sp, p->cpu_context.pc, p->priority);
 	}
 }
 
@@ -57,7 +57,7 @@ void _schedule(void)
 		}
 	}
 
-	printf("\r\nSwitch to task %d\r\n", next);
+	printf("\r\nSwitch to Task %d\r\n", next);
 	printf("Task Manager:\r\n");
 	print_tasks();
 	switch_to(task[next]);
