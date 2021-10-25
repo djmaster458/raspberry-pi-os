@@ -27,7 +27,7 @@ void print_tasks(void)
 		{
 			return;
 		}
-		printf("[Task %d] sp=%X\r\n pc=%X\r\n pri=%d", i, p->cpu_context.sp, p->cpu_context.pc, p->priority);
+		printf("[Task %d] sp=%X\r\n pc=%X\r\n pri=%d\r\n", i, p->cpu_context.sp, p->cpu_context.pc, p->priority);
 	}
 }
 
