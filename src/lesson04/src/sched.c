@@ -83,7 +83,6 @@ void schedule_tail(void) {
 	preempt_enable();
 }
 
-
 void timer_tick()
 {
 	--current->counter;
