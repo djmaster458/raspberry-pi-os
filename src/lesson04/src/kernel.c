@@ -25,12 +25,12 @@ void kernel_main(void)
 	enable_interrupt_controller();
 	enable_irq();
 
-	int res = copy_process((unsigned long)&process, (unsigned long)"12345", 5); //SHould print more since higher priority
+	int res = copy_process((unsigned long)&process, (unsigned long)"12345", 3); //SHould print more since higher priority
 	if (res != 0) {
 		printf("error while starting process 1");
 		return;
 	}
-	res = copy_process((unsigned long)&process, (unsigned long)"abcde", 2); //Should print less since lower priority
+	res = copy_process((unsigned long)&process, (unsigned long)"abcde", 1); //Should print less since lower priority
 	if (res != 0) {
 		printf("error while starting process 2");
 		return;
