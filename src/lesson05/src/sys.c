@@ -24,4 +24,9 @@ void sys_exit(){
 	exit_process();
 }
 
-void * const sys_call_table[] = {sys_write, sys_malloc, sys_clone, sys_exit};
+void sys_priority_change(long priority)
+{
+	current->priority = priority;			//Function to change priority of current process
+}
+
+void * const sys_call_table[] = {sys_write, sys_malloc, sys_clone, sys_exit, sys_priority_change};
